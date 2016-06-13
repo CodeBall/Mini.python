@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>添加属性</h2>
+<form action="/admin/add_tag" method="post">
+    <p>属性名</p>
+    <input type="text" name="tag_name">
+    <input type="hidden" name="tag_pid" value="{{tag_pid}}">
+    <input type="hidden" name="tag_level" value="{{tag_level}}">
+    <input type="hidden" name="tag_node" value="{{tag_node}}">
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

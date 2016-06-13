@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>{{itself}}</h1>
+{% for i in parents %}
+    <a href="/area/children/{{i.area_id}}">{{i.area_title}}</a>|
+    {% endfor %}
+    <br/>
+    {% for i in childs %}
+    <a href="/area/children/{{i.area_id}}">{{i.area_title}}</a>|
+    {% endfor %}
+    {% for i in topic%}
+    <li><a href="/topic/{{i.tpc_id}}/{{i.tpc_uid}}/{{i.tpc_pid}}/{{i.tpc_area}}">{{i.tpc_title}}</a></li>
+    {% endfor %}
+</body>
+</html>

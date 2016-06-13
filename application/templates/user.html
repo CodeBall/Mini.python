@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% if status == 1 %}
+<h1>{{itself.usr_nick}}</h1>
+<ul>
+   {% for i in topic%}
+    <li><a href="/topic/{{i.tpc_id}}/{{i.tpc_uid}}/{{i.tpc_pid}}/{{i.tpc_area}}">{{i.tpc_title}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+<h3>没有该用户哦~</h3>
+{% endif %}
+</body>
+</html>

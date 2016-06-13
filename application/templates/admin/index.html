@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    {% for i in rnt[21] recursive %}
+        <h4>{% for x in range(i.nod_level-100) %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}
+            <a style="text-decoration: none" href="/admin/show_tag/{{i.node_id}}">{{i.nod_title}}</a>
+        </h4>
+        {% if i.node_id in rnt %}
+            {{loop(rnt[i.node_id])}}
+        {% endif %}
+    {% endfor %}
+</ul>
+</body>
+</html>
