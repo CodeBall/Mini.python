@@ -23,6 +23,7 @@ def update_area():
 
     return render_template('status.html')
 
+
 @app.route('/node/parent_line')
 def update_node():
     node = session.query(Node).filter_by(nod_level=101).all()

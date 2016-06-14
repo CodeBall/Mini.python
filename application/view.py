@@ -14,7 +14,7 @@ def index():
     for x in lists:
         for i in rnt[x]:
             two = i.get_node_child()
-            if (two):
+            if two:
                 rnt[i.node_id] = two
                 lists.append(i.node_id)
 

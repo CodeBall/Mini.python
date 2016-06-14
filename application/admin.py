@@ -2,7 +2,7 @@ from flask import render_template
 from flask import flash
 from .model import *
 from application import app, session
-from flask_restful import reqparse, abort
+from flask_restful import reqparse
 
 
 @app.route('/admin/index')
@@ -15,7 +15,7 @@ def admin_index():
     for x in lists:
         for i in rnt[x]:
             two = i.get_node_child()
-            if (two):
+            if two:
                 rnt[i.node_id] = two
                 lists.append(i.node_id)
 
@@ -31,7 +31,7 @@ def show_tag(node_id):
 
     for i in tags:
         two = i.get_tag_child()
-        if (two):
+        if two:
             rnt[i.tag_id] = two
 
     return render_template('/admin/show_tag.html', node_title=node_title, start=node_id, rnt=rnt)
