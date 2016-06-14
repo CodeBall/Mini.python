@@ -1,8 +1,10 @@
-from flask import render_template
-from flask import flash
+from flask import render_template,flash
+
+from flask_restful import reqparse
+
 from .model import *
 from application import app, session
-from flask_restful import reqparse
+
 
 
 @app.route('/admin/index')

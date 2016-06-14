@@ -8,7 +8,7 @@
     <h1>{{itself.tpc_title}}</h1>
     publisher:<a href="/user/{{user.usr_id}}">{{user.usr_nick}}</a><br/>
 
-    {% for i in parents %}
+    {% for i in nodes %}
     <a href="/node/children/{{i.node_id}}">{{i.nod_title}}</a>|
     {% endfor %}
     <br/>
@@ -19,7 +19,7 @@
     <p>{{itself.tpc_content}}</p>
 
     <ul>
-    {% for i in reply %}
+    {% for i in replies %}
     <li><a href="/user/{{i.rpl_post_usr_id}}">{{i.user.usr_nick}}</a></li>{{i.rpl_content}}
     {%endfor%}
     </ul>

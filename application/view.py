@@ -1,7 +1,7 @@
-from flask import render_template
+from flask import render_template,flash,abort
+
 from .model import *
 from application import app, session
-from flask import flash
 
 
 @app.route('/')
@@ -29,7 +29,7 @@ def node_children(id):
         flash("找不到该目录")
         return render_template('error.html')
 
-    children = self_node.get_node_child()
+    childs = self_node.get_node_child()
 
     parent_line = self_node.parent_line.split(',')
     parents = []
@@ -37,9 +37,9 @@ def node_children(id):
         parents = Node.get_node_parent(parent_line)
     parents.append(self_node)
 
-    topic = self_node.topics
+    topics = self_node.topics
 
-    return render_template('listing.html', itself=self_node, childs=children, parents=parents, topic=topic)
+    return render_template('listing.html', itself=self_node, childs=childs, parents=parents, topics=topics)
 
 
 @app.route('/area/children/<area_id>')
@@ -50,7 +50,7 @@ def area_child(area_id):
         flash("找不到该地域")
         return render_template('error.html')
 
-    children = self_area.get_area_child()
+    childs = self_area.get_area_child()
 
     parent_line = self_area.parent_line.split(',')
     parents = []
@@ -58,9 +58,9 @@ def area_child(area_id):
         parents = Area.get_area_parents(parent_line)
     parents.append(self_area)
 
-    topic = self_area.topics
+    topics = self_area.topics
 
-    return render_template('area.html', itself=self_area, childs=children, parents=parents, topic=topic)
+    return render_template('area.html', itself=self_area, childs=childs, parents=parents, topics=topics)
 
 
 @app.route('/topic/<tpc_id>')
@@ -87,18 +87,18 @@ def topic(tpc_id):
         areas = Area.get_area_parents(area_line)
         areas.append(area)
 
-    reply = itself.replies
+    replies = itself.replies
 
-    return render_template('topic.html', itself=itself, user=user, parents=nodes, areas=areas, reply=reply)
+    return render_template('topic.html', itself=itself, user=user, nodes=nodes, areas=areas, replies=replies)
 
 
 @app.route('/user/<int:user_id>')
 def user(user_id):
     itself = User.get_user(user_id)
-    status = 0
-    topic = []
+    status = False
+    topics = []
     if isinstance(itself, User):
-        topic = itself.topics
-        status = 1
+        topics = itself.topics
+        status = True
 
-    return render_template('user.html', status=status, itself=itself, topic=topic)
+    return render_template('user.html', status=status, itself=itself, topics=topics)

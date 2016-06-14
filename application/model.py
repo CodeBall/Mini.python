@@ -6,11 +6,11 @@ __all__ = (
     'Tag',
     'User',
 )
-from application import Base
-from sqlalchemy import Column, Integer, String, Unicode, ForeignKey
+from sqlalchemy import Column, Integer, String, Unicode, ForeignKey,asc
 from sqlalchemy.dialects.mysql import INTEGER, BIGINT, TEXT, SMALLINT, LONGTEXT, DOUBLE
-from application import session
 from sqlalchemy.orm import relationship
+
+from application import session,Base
 
 
 class Area(Base):
@@ -32,14 +32,18 @@ class Area(Base):
 
     @staticmethod
     def get_area_parents(parent_line):
-        return session.query(Area).filter(Area.area_id.in_(parent_line)).order_by(Area.area_level).all()
+        if type(parent_line) == list or type(parent_line) == tuple:
+            return session.query(Area).filter(Area.area_id.in_(parent_line)).order_by(asc(Area.area_level)).all()
+
 
     def get_area_child(self):
         return session.query(Area).filter_by(area_pid=self.area_id).all()
 
+
     @staticmethod
     def get_area(area_id):
         return session.query(Area).filter_by(area_id=area_id).first()
+
 
 
 class Node(Base):
@@ -76,7 +80,8 @@ class Node(Base):
 
     @staticmethod
     def get_node_parent(parent_line):
-        return session.query(Node).filter(Node.node_id.in_(parent_line)).order_by(Node.nod_level).all()
+        if type(parent_line) == list or type(parent_line) == tuple:
+            return session.query(Node).filter(Node.node_id.in_(parent_line)).order_by(asc(Node.nod_level)).all()
 
     def get_node_child(self):
         return session.query(Node).filter_by(nod_pid=self.node_id).all()
@@ -151,7 +156,7 @@ class Topic(Base):
 
     @staticmethod
     def get_topic(tpc_id):
-        return session.query(Topic).filter_by(tpc_id=tpc_id).first()
+        return session.query(Topic).get(tpc_id)
 
 
 class Tag(Base):
@@ -213,6 +218,6 @@ class User(Base):
 
     @staticmethod
     def get_user(user_id):
-        return session.query(User).filter_by(usr_id=user_id).first()
+        return session.query(User).get(user_id)
 
 # Base.metadata.create_all(engine)

@@ -1,4 +1,5 @@
 from flask import render_template
+
 from .model import *
 from application import app, session
 

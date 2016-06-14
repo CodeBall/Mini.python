@@ -6,10 +6,10 @@
 </head>
 <body>
 
-{% if status == 1 %}
+{% if status %}
 <h1>{{itself.usr_nick}}</h1>
 <ul>
-   {% for i in topic%}
+   {% for i in topics%}
     <li><a href="/topic/{{i.tpc_id}}">{{i.tpc_title}}</a></li>
     {% endfor %}
     </ul>
