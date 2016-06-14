@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>{{itself}}</h1>
+<h1>{{itself.nod_title}}</h1>
 <ul>
     {% for i in parents %}
     <a href="/node/children/{{i.node_id}}">{{i.nod_title}}</a>>>
@@ -15,7 +15,7 @@
     <a href="/node/children/{{i.node_id}}">{{i.nod_title}}</a>|
     {% endfor %}
     {% for i in topic%}
-    <li><a href="/topic/{{i.tpc_id}}/{{i.tpc_uid}}/{{i.tpc_pid}}/{{i.tpc_area}}">{{i.tpc_title}}</a></li>
+    <li><a href="/topic/{{i.tpc_id}}">{{i.tpc_title}}</a></li>
     {% endfor %}
 </ul>
 </body>

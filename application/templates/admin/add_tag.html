@@ -7,12 +7,26 @@
 <body>
 <h2>添加属性</h2>
 <form action="/admin/add_tag" method="post">
-    <p>属性名</p>
-    <input type="text" name="tag_name">
-    <input type="hidden" name="tag_pid" value="{{tag_pid}}">
-    <input type="hidden" name="tag_level" value="{{tag_level}}">
-    <input type="hidden" name="tag_node" value="{{tag_node}}">
-    <input type="submit" value="提交">
+    <p>属性名:</p>
+    <div style="width: 1000px">
+        <div style="width: 150px;float: left"><input type="text" name="tag_name"></div>
+        <div style="color: red;float: left">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <input type="hidden" name="tag_pid" value="{{ tag_pid }}">
+    <input type="hidden" name="tag_level" value="{{ tag_level }}">
+    <input type="hidden" name="tag_node" value="{{ tag_node }}">
+    <br><br>
+    <div style="clear: both"><input type="submit" value="提交"></div>
 </form>
 </body>
 </html>

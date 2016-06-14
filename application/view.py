@@ -13,7 +13,7 @@ def index():
 
     for x in lists:
         for i in rnt[x]:
-            two = session.query(Node).filter_by(nod_pid=i.node_id).all()
+            two = i.get_node_child()
             if (two):
                 rnt[i.node_id] = two
                 lists.append(i.node_id)
@@ -23,78 +23,82 @@ def index():
 
 @app.route('/node/children/<int:id>')
 def node_children(id):
-    try:
-        self_node = Node.get_node(id)
-    except AttributeError:
-        return render_template('error.html',status = "出错了哦")
+    self_node = Node.get_node(id)
 
-    try:
-        children = self_node.get_node_child()
-    except AttributeError:
-        return render_template('error.html',status = "出错了哦~")
+    if not isinstance(self_node, Node):
+        flash("找不到该目录")
+        return render_template('error.html')
+
+    children = self_node.get_node_child()
 
     parent_line = self_node.parent_line.split(',')
-    parents = Node.get_node_parent(parent_line)
+    parents = []
+    if len(parent_line) > 0:
+        parents = Node.get_node_parent(parent_line)
     parents.append(self_node)
 
-    topic = Topic.get_topic(id)
-
-    self_node = self_node.nod_title
+    topic = self_node.topics
 
     return render_template('listing.html', itself=self_node, childs=children, parents=parents, topic=topic)
 
 
 @app.route('/area/children/<area_id>')
 def area_child(area_id):
-
     self_area = Area.get_area(area_id)
+
+    if not isinstance(self_area, Area):
+        flash("找不到该地域")
+        return render_template('error.html')
+
     children = self_area.get_area_child()
 
     parent_line = self_area.parent_line.split(',')
-    parents = Area.get_area_parents(parent_line)
+    parents = []
+    if len(parent_line) != 0:
+        parents = Area.get_area_parents(parent_line)
     parents.append(self_area)
 
-    topic = Topic.get_topic_area(area_id)
+    topic = self_area.topics
 
-    self_title = self_area.area_title
-
-    return render_template('area.html', itself=self_title, childs=children, parents=parents, topic=topic)
+    return render_template('area.html', itself=self_area, childs=children, parents=parents, topic=topic)
 
 
-@app.route('/topic/<tpc_id>/<tpc_uid>/<tpc_pid>/<tpc_area>')
-def topic(tpc_id, tpc_uid, tpc_pid, tpc_area):
+@app.route('/topic/<tpc_id>')
+def topic(tpc_id):
+    itself = Topic.get_topic(tpc_id)
 
-    itself = Topic.get_topic_selt(tpc_id)
+    if not isinstance(itself, Topic):
+        flash("找不到该话题")
+        return render_template('error.html')
 
-    user = User.get_topic_user(tpc_uid)
+    user = itself.user
 
-    node = Node.get_node_topic(tpc_pid)
+    node = itself.node
+    nodes = []
     if node:
         parent_line = node.parent_line.split(',')
         nodes = Node.get_node_parent(parent_line)
         nodes.append(node)
 
     areas = []
-    area = Area.get_area_topic(tpc_area)
+    area = itself.area
     if area:
         area_line = area.parent_line.split(',')
         areas = Area.get_area_parents(area_line)
         areas.append(area)
 
-    reply = Reply.get_reply_topic(tpc_id)
+    reply = itself.replies
 
-    return render_template('topic.html', itself=itself, user=user, parents=nodes,
-                           areas=areas, reply=reply)
+    return render_template('topic.html', itself=itself, user=user, parents=nodes, areas=areas, reply=reply)
 
 
 @app.route('/user/<int:user_id>')
 def user(user_id):
-
     itself = User.get_user(user_id)
     status = 0
     topic = []
-    if (itself):
-        topic = Topic.get_topic_user(user_id)
+    if isinstance(itself, User):
+        topic = itself.topics
         status = 1
 
     return render_template('user.html', status=status, itself=itself, topic=topic)

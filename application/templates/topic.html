@@ -20,7 +20,7 @@
 
     <ul>
     {% for i in reply %}
-    <li><a href="/user/{{i.rpl_post_usr_id}}">{{i.rpl_post_nick}}</a></li>{{i.rpl_content}}
+    <li><a href="/user/{{i.rpl_post_usr_id}}">{{i.user.usr_nick}}</a></li>{{i.rpl_content}}
     {%endfor%}
     </ul>
 </body>
